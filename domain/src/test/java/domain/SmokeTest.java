@@ -57,10 +57,28 @@ public class SmokeTest {
         BusinessTravel businessTravel1 = new BusinessTravel(start1, end1, destination, reason);
         BusinessTravel businessTravel2 = new BusinessTravel(start2, end2, destination, reason);
 
-        new AccountService().accept(businessTravel1);
-        assertThrows(IllegalArgumentException.class, () -> {
-            new AccountService().accept(businessTravel2);
+        AccountingService accountingService = new AccountingService();
+        accountingService.accept(businessTravel1);
+        assertThrows(IllegalStateException.class, () -> {
+            accountingService.accept(businessTravel2);
         });
+    }
+
+    @Test
+    public void accounting_accepts_two_travels() {
+        LocalDateTime start1 = LocalDateTime.now().plusDays(2L);
+        LocalDateTime end1 = LocalDateTime.now().plusDays(4);
+        LocalDateTime start2 = LocalDateTime.now().plusDays(5);
+        LocalDateTime end2 = LocalDateTime.now().plusDays(6);
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
+
+        BusinessTravel businessTravel1 = new BusinessTravel(start1, end1, destination, reason);
+        BusinessTravel businessTravel2 = new BusinessTravel(start2, end2, destination, reason);
+
+        AccountingService accountingService = new AccountingService();
+        accountingService.accept(businessTravel1);
+        accountingService.accept(businessTravel2);
     }
 
 }

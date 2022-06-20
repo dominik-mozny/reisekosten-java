@@ -22,4 +22,19 @@ public class BusinessTravel {
         this.reason = reason;
     }
 
+    public LocalDateTime getStart() {
+        return start;
+    }
+
+    public LocalDateTime getEnd() {
+        return end;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public String getReason() {
+        return reason;
+    }
 }
