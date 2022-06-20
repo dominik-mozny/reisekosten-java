@@ -16,7 +16,7 @@ public class BusinessTravel {
         Objects.requireNonNull(destination);
         Objects.requireNonNull(reason);
         if (!start.isBefore(end)) {
-            throw new IllegalArgumentException("Start date must be before end date");
+            throw new IllegalArgumentException("Travel end date must occur after travel start date");
         }
         this.start = start;
         this.end = end;

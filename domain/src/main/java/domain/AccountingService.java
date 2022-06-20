@@ -8,32 +8,40 @@ public class AccountingService {
     List<BusinessTravel> businessTravels = new ArrayList<>();
 
     public void accept(BusinessTravel businessTravel, LocalDateTime now) {
-        for (BusinessTravel b : businessTravels) {
-            if (twoBusinessTravelsOverlap(b, businessTravel)) {
-                throw new IllegalStateException();
-            }
-        }
-        if(isClosedForCommits(now)) {
-            throw new IllegalArgumentException("Not possible to commit between 23.6. and 24.6.");
-        }
-        LocalDateTime deadLine = LocalDateTime.now().withMonth(1).withDayOfMonth(10).plusYears(1);
+        businessTravels.stream().forEach(b -> twoBusinessTravelsOverlap(b, businessTravel));
+        validateOverDeadline(businessTravel, now);
+        validateClosedForCommits(now);
         businessTravels.add(businessTravel);
-
     }
 
-    private boolean twoBusinessTravelsOverlap(BusinessTravel businessTravel1, BusinessTravel businessTravel2) {
+    private void validateOverDeadline(BusinessTravel businessTravel, LocalDateTime now) {
+        LocalDateTime deadLine =  businessTravel.getEnd()
+                .plusYears(1)
+                .withDayOfMonth(10)
+                .withMonth(1)
+                .withHour(23)
+                .withMinute(59);
+        if (now.isAfter(deadLine)) {
+            throw new IllegalArgumentException("Travel expenses were committed too late");
+        }
+    }
+
+    private void twoBusinessTravelsOverlap(BusinessTravel businessTravel1, BusinessTravel businessTravel2) {
         LocalDateTime startA = businessTravel1.getStart();
         LocalDateTime endA = businessTravel1.getEnd();
         LocalDateTime startB = businessTravel2.getStart();
         LocalDateTime endB = businessTravel2.getEnd();
 
-        return startA.isBefore(endB) && endA.isAfter(startB);
+        if(startA.isBefore(endB) && endA.isAfter(startB)) {
+            throw new IllegalStateException("New business trip overlaps with existing business trip");
+        }
     }
 
-    private boolean isClosedForCommits(LocalDateTime now) {
+    private void validateClosedForCommits(LocalDateTime now) {
         LocalDateTime june_23 = LocalDateTime.of(2022, 6, 23, 0, 0);
         LocalDateTime june_24 = LocalDateTime.of(2022, 6, 24, 23, 59);
-        return now.isAfter(june_23) && now.isBefore(june_24);
+        if(now.isAfter(june_23) && now.isBefore(june_24)) {
+            throw new IllegalArgumentException("Not possible to commit between 23.6. and 24.6.");
+        }
     }
-
 }

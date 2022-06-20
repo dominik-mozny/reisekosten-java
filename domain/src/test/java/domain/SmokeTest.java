@@ -102,13 +102,14 @@ public class SmokeTest {
 
     @Test
     public void travel_can_be_inserted_only_after_10_January_of_the_following_year() {
-        LocalDateTime start = LocalDateTime.now().withMonth(2).plusYears(1);
-        LocalDateTime end = start.plusDays(2);
+        LocalDateTime start = LocalDateTime.of(2022, 12, 31, 0, 0);
+        LocalDateTime end = LocalDateTime.of(2022, 12, 31, 5, 0);
+        LocalDateTime now = LocalDateTime.of(2023, 1, 11, 0, 0);
         String destination = "Sardinien";
         String reason = "eduCamp2022";
         BusinessTravel businessTravel = new BusinessTravel(start, end, destination, reason);
         assertThrows(IllegalArgumentException.class, () -> {
-            accountingService.accept(businessTravel, LocalDateTime.now());
+            accountingService.accept(businessTravel, now);
         });
     }
 
