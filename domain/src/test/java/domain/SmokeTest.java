@@ -42,13 +42,15 @@ public class SmokeTest {
     }
 
     @Test
-    public void allTravelsBetween23_6_and_24_6_will_be_denied() {
-        LocalDateTime start = LocalDateTime.of(2022, 6, 23, 5, 0);
-        LocalDateTime end = LocalDateTime.of(2022, 6, 24, 6, 0);
+    public void allTravels_Commited_Between23_6_and_24_6_will_be_denied() {
+        LocalDateTime now = LocalDateTime.of(2022, 6, 23, 5, 0);
+        LocalDateTime start = LocalDateTime.now();
+        LocalDateTime end = start.plusDays(2);
         String destination = "Sardinien";
         String reason = "eduCamp2022";
+        BusinessTravel businessTravel = new BusinessTravel(start, end, destination, reason);
         assertThrows(IllegalArgumentException.class, () -> {
-            new BusinessTravel(start, end, destination, reason);
+            accountingService.accept(businessTravel, now);
         });
     }
 
@@ -76,9 +78,9 @@ public class SmokeTest {
         BusinessTravel businessTravel2 = new BusinessTravel(start2, end2, destination, reason);
 
         AccountingService accountingService = new AccountingService();
-        accountingService.accept(businessTravel1);
+        accountingService.accept(businessTravel1, LocalDateTime.now());
         assertThrows(IllegalStateException.class, () -> {
-            accountingService.accept(businessTravel2);
+            accountingService.accept(businessTravel2, LocalDateTime.now());
         });
     }
 
@@ -94,8 +96,8 @@ public class SmokeTest {
         BusinessTravel businessTravel1 = new BusinessTravel(start1, end1, destination, reason);
         BusinessTravel businessTravel2 = new BusinessTravel(start2, end2, destination, reason);
 
-        accountingService.accept(businessTravel1);
-        accountingService.accept(businessTravel2);
+        accountingService.accept(businessTravel1, LocalDateTime.now());
+        accountingService.accept(businessTravel2, LocalDateTime.now());
     }
 
     @Test
@@ -106,7 +108,7 @@ public class SmokeTest {
         String reason = "eduCamp2022";
         BusinessTravel businessTravel = new BusinessTravel(start, end, destination, reason);
         assertThrows(IllegalArgumentException.class, () -> {
-            accountingService.accept(businessTravel);
+            accountingService.accept(businessTravel, LocalDateTime.now());
         });
     }
 
