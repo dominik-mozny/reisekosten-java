@@ -1,6 +1,7 @@
 package domain;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class BusinessTravel {
     private LocalDateTime start;
@@ -8,6 +9,10 @@ public class BusinessTravel {
     private String destination;
     private String reason;
     public BusinessTravel(LocalDateTime start, LocalDateTime end, String destination, String reason){
+        Objects.requireNonNull(start);
+        Objects.requireNonNull(end);
+        Objects.requireNonNull(destination);
+        Objects.requireNonNull(reason);
         this.start = start;
         this.end = end;
         this.destination = destination;

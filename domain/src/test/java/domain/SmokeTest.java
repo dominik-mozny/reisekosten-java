@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SmokeTest {
     @Test
@@ -14,7 +15,7 @@ public class SmokeTest {
 
     @Test
     void should_accept_businessTravel(){
-        new BusinessTravel();
+        new BusinessTravel(LocalDateTime.now(), LocalDateTime.now(), "dest", "reason");
     }
 
     @Test
@@ -24,6 +25,8 @@ public class SmokeTest {
         String destination = null;
         String reason = null;
 
-        new BusinessTravel(start, end, destination, reason);
+        assertThrows(NullPointerException.class, () -> {
+            new BusinessTravel(start, end, destination, reason);
+        });
     }
 }
