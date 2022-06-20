@@ -18,9 +18,6 @@ public class BusinessTravel {
         if (!start.isBefore(end)) {
             throw new IllegalArgumentException("Start date must be before end date");
         }
-        if (travelDeskIsNotAvailable(start, end)) {
-            throw new IllegalArgumentException("Travel desk is not working");
-        }
         this.start = start;
         this.end = end;
         this.destination = destination;
@@ -41,9 +38,5 @@ public class BusinessTravel {
 
     public String getReason() {
         return reason;
-    }
-
-    private boolean travelDeskIsNotAvailable() {
-        Date forbiddenDate = new Date()
     }
 }

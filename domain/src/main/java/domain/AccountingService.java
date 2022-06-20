@@ -13,6 +13,9 @@ public class AccountingService {
                 throw new IllegalStateException();
             }
         }
+        if(isClosedForCommits()) {
+            throw new IllegalArgumentException("Not possible to commit between 23.6. and 24.6.");
+        }
         LocalDateTime deadLine = LocalDateTime.now().withMonth(1).withDayOfMonth(10).plusYears(1);
         businessTravels.add(businessTravel);
 
@@ -25,6 +28,13 @@ public class AccountingService {
         LocalDateTime endB = businessTravel2.getEnd();
 
         return startA.isBefore(endB) && endA.isAfter(startB);
+    }
+
+    private boolean isClosedForCommits() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime june_23 = LocalDateTime.of(2022, 6, 23, 0, 0);
+        LocalDateTime june_24 = LocalDateTime.of(2022, 6, 24, 23, 59);
+        return now.isAfter(june_23) && now.isBefore(june_24);
     }
 
 }
