@@ -39,4 +39,8 @@ public class BusinessTravel {
     public String getReason() {
         return reason;
     }
+
+    public boolean doesOverlap(BusinessTravel other) {
+        return other.getStart().isBefore(this.getEnd()) && end.isAfter(other.getStart());
+    }
 }
