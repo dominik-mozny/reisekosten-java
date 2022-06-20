@@ -29,6 +29,8 @@ public class SmokeTest {
         LocalDateTime end = LocalDateTime.now().minusDays(5L);
         String destination = "Sardinien";
         String reason = "eduCamp2022";
-        new BusinessTravel(start, end, destination, reason);
+        assertThrows(IllegalArgumentException.class, () -> {
+            new BusinessTravel(start, end, destination, reason);
+        });
     }
 }
