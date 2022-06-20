@@ -33,4 +33,15 @@ public class SmokeTest {
             new BusinessTravel(start, end, destination, reason);
         });
     }
+
+    @Test
+    void travel_end_date_must_not_be_the_same_as_travel_start_date() {
+        LocalDateTime start = LocalDateTime.now().plusDays(2L);
+        LocalDateTime end = start;
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
+        assertThrows(IllegalArgumentException.class, () -> {
+            new BusinessTravel(start, end, destination, reason);
+        });
+    }
 }
