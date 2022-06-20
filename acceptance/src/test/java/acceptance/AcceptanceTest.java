@@ -22,7 +22,7 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 @CucumberContextConfiguration
 @SpringBootTest
 public class AcceptanceTest {
-
+  // Hello
     @Configuration
     @Import({TestApplication.class})
     static class TestConfiguration {
