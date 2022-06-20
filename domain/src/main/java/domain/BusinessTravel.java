@@ -1,6 +1,7 @@
 package domain;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 public class BusinessTravel {
@@ -8,13 +9,17 @@ public class BusinessTravel {
     private LocalDateTime end;
     private String destination;
     private String reason;
-    public BusinessTravel(LocalDateTime start, LocalDateTime end, String destination, String reason){
+
+    public BusinessTravel(LocalDateTime start, LocalDateTime end, String destination, String reason) {
         Objects.requireNonNull(start);
         Objects.requireNonNull(end);
         Objects.requireNonNull(destination);
         Objects.requireNonNull(reason);
-        if(!start.isBefore(end)) {
+        if (!start.isBefore(end)) {
             throw new IllegalArgumentException("Start date must be before end date");
+        }
+        if (travelDeskIsNotAvailable(start, end)) {
+            throw new IllegalArgumentException("Travel desk is not working");
         }
         this.start = start;
         this.end = end;
@@ -36,5 +41,9 @@ public class BusinessTravel {
 
     public String getReason() {
         return reason;
+    }
+
+    private boolean travelDeskIsNotAvailable() {
+        Date forbiddenDate = new Date()
     }
 }
