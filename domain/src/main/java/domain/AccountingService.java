@@ -8,7 +8,7 @@ public class AccountingService {
     List<BusinessTravel> businessTravels = new ArrayList<>();
 
     public void accept(BusinessTravel businessTravel, LocalDateTime now) {
-        businessTravels.stream().forEach(b -> twoBusinessTravelsOverlap(b, businessTravel));
+        businessTravels.stream().forEach(b -> validateIfTwoBusinessTravelsOverlap(b, businessTravel));
         validateOverDeadline(businessTravel, now);
         validateClosedForCommits(now);
         businessTravels.add(businessTravel);
@@ -26,7 +26,7 @@ public class AccountingService {
         }
     }
 
-    private void twoBusinessTravelsOverlap(BusinessTravel businessTravel1, BusinessTravel businessTravel2) {
+    private void validateIfTwoBusinessTravelsOverlap(BusinessTravel businessTravel1, BusinessTravel businessTravel2) {
         LocalDateTime startA = businessTravel1.getStart();
         LocalDateTime endA = businessTravel1.getEnd();
         LocalDateTime startB = businessTravel2.getStart();
