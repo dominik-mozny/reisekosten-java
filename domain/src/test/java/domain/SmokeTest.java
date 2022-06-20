@@ -21,8 +21,8 @@ public class SmokeTest {
     void creation_of_business_travel_fails_because_of_the_parameter_is_missing() {
         LocalDateTime start = null;
         LocalDateTime end = null;
-        String destination;
-        String reason;
+        String destination = null;
+        String reason = null;
 
         new BusinessTravel(start, end, destination, reason);
     }
