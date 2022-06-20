@@ -9,4 +9,9 @@ public class SmokeTest {
     void addition() {
         assertEquals(1, 1);
     }
+
+    @Test
+    void should_accept_businessTravel(){
+        new BussinessTravel();
+    }
 }
