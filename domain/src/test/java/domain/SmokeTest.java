@@ -1,5 +1,6 @@
 package domain;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -8,6 +9,12 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SmokeTest {
+    private AccountingService accountingService;
+
+    @BeforeEach
+    public void setup() {
+        accountingService = new AccountingService();
+    }
     @Test
     void addition() {
         assertEquals(1, 1);
@@ -76,9 +83,20 @@ public class SmokeTest {
         BusinessTravel businessTravel1 = new BusinessTravel(start1, end1, destination, reason);
         BusinessTravel businessTravel2 = new BusinessTravel(start2, end2, destination, reason);
 
-        AccountingService accountingService = new AccountingService();
         accountingService.accept(businessTravel1);
         accountingService.accept(businessTravel2);
+    }
+
+    @Test
+    public void travel_can_be_inserted_only_after_10_January_of_the_following_year() {
+        LocalDateTime start = LocalDateTime.now().withMonth(2).plusYears(1);
+        LocalDateTime end = start.plusDays(2);
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
+        BusinessTravel businessTravel = new BusinessTravel(start, end, destination, reason);
+        assertThrows(IllegalArgumentException.class, () -> {
+            accountingService.accept(businessTravel);
+        });
     }
 
 }
