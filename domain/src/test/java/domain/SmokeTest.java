@@ -42,6 +42,17 @@ public class SmokeTest {
     }
 
     @Test
+    public void allTravelsBetween23_6_and_24_6_will_be_denied() {
+        LocalDateTime start = LocalDateTime.of(2022, 6, 23, 5, 0);
+        LocalDateTime end = LocalDateTime.of(2022, 6, 24, 6, 0);
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
+        assertThrows(IllegalArgumentException.class, () -> {
+            new BusinessTravel(start, end, destination, reason);
+        });
+    }
+
+    @Test
     void travel_end_date_must_not_be_the_same_as_travel_start_date() {
         LocalDateTime start = LocalDateTime.now().plusDays(2L);
         LocalDateTime end = start;
