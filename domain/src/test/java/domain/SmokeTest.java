@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SmokeTest {
     @Test
@@ -21,6 +20,15 @@ public class SmokeTest {
         String destination = "Sardinien";
         String reason = "eduCamp2022";
 
+        new BusinessTravel(start, end, destination, reason);
+    }
+
+    @Test
+    void travel_end_date_must_occur_after_travel_start_date() {
+        LocalDateTime start = LocalDateTime.now().plusDays(2L);
+        LocalDateTime end = LocalDateTime.now().minusDays(5L);
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
         new BusinessTravel(start, end, destination, reason);
     }
 }
