@@ -44,4 +44,23 @@ public class SmokeTest {
             new BusinessTravel(start, end, destination, reason);
         });
     }
+
+    @Test
+    public void accounting_accepts_only_one_simuoltaneous_travel() {
+        LocalDateTime start1 = LocalDateTime.now().plusDays(2L);
+        LocalDateTime end1 = LocalDateTime.now().plusDays(4);
+        LocalDateTime start2 = LocalDateTime.now().plusDays(1L);
+        LocalDateTime end2 = LocalDateTime.now().plusDays(3);
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
+
+        BusinessTravel businessTravel1 = new BusinessTravel(start1, end1, destination, reason);
+        BusinessTravel businessTravel2 = new BusinessTravel(start2, end2, destination, reason);
+
+        new AccountService().accept(businessTravel1);
+        assertThrows(IllegalArgumentException.class, () -> {
+            new AccountService().accept(businessTravel2);
+        });
+    }
+
 }
