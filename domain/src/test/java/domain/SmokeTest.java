@@ -111,4 +111,109 @@ public class SmokeTest {
             accountingService.accept(businessTravel, now);
         });
     }
+
+    @Test
+    public void should_obtain_6_euro_for_trip_between_8_and_12_hours() {
+        LocalDateTime start = LocalDateTime.of(2022, 12, 31, 0, 0);
+        LocalDateTime end = LocalDateTime.of(2022, 12, 31, 9, 0);
+        LocalDateTime now = LocalDateTime.of(2023, 1, 1, 0, 0);
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
+        BusinessTravel businessTravel = new BusinessTravel(start, end, destination, reason);
+        accountingService.accept(businessTravel, now);
+
+        Report report = accountingService.generateReport();
+
+        assertEquals(report.getPrice(), 6);
+    }
+
+    @Test
+    public void should_obtain_12_euro_for_trip_between_12_and_24_hours() {
+        LocalDateTime start = LocalDateTime.of(2022, 12, 31, 0, 0);
+        LocalDateTime end = LocalDateTime.of(2022, 12, 31, 13, 0);
+        LocalDateTime now = LocalDateTime.of(2023, 1, 1, 0, 0);
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
+        BusinessTravel businessTravel = new BusinessTravel(start, end, destination, reason);
+        accountingService.accept(businessTravel, now);
+
+        Report report = accountingService.generateReport();
+
+        assertEquals(report.getPrice(), 12);
+    }
+
+    @Test
+    public void should_obtain_24_euro_for_trip_between_of_24_hours() {
+        LocalDateTime start = LocalDateTime.of(2022, 12, 30, 0, 0);
+        LocalDateTime end = LocalDateTime.of(2022, 12, 31 , 0, 0);
+        LocalDateTime now = LocalDateTime.of(2023, 1, 1, 0, 0);
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
+        BusinessTravel businessTravel = new BusinessTravel(start, end, destination, reason);
+        accountingService.accept(businessTravel, now);
+
+        Report report = accountingService.generateReport();
+
+        assertEquals(report.getPrice(), 24);
+    }
+
+    @Test
+    public void should_obtain_12_euro_for_trip_over_2_days_with_more_than_8_hours_spend_in_each_day() {
+        LocalDateTime start = LocalDateTime.of(2022, 12, 30, 14, 0);
+        LocalDateTime end = LocalDateTime.of(2022, 12, 31, 10, 0);
+        LocalDateTime now = LocalDateTime.of(2023, 1, 1, 0, 0);
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
+        BusinessTravel businessTravel = new BusinessTravel(start, end, destination, reason);
+        accountingService.accept(businessTravel, now);
+
+        Report report = accountingService.generateReport();
+
+        assertEquals(report.getPrice(), 12);
+    }
+
+    @Test
+    public void should_obtain_12_euro_for_trip_over_2_days_with_more_than_12_hours_spend_in_each_day() {
+        LocalDateTime start = LocalDateTime.of(2022, 12, 30, 10, 0);
+        LocalDateTime end = LocalDateTime.of(2022, 12, 31, 14, 0);
+        LocalDateTime now = LocalDateTime.of(2023, 1, 1, 0, 0);
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
+        BusinessTravel businessTravel = new BusinessTravel(start, end, destination, reason);
+        accountingService.accept(businessTravel, now);
+
+        Report report = accountingService.generateReport();
+
+        assertEquals(report.getPrice(), 24);
+    }
+
+    @Test
+    public void should_obtain_36_euro_for_trip_over_3_days_with_more_than_8_hours_spend_in_first_and_last_day() {
+        LocalDateTime start = LocalDateTime.of(2022, 12, 29, 14, 0);
+        LocalDateTime end = LocalDateTime.of(2022, 12, 31, 10, 0);
+        LocalDateTime now = LocalDateTime.of(2023, 1, 1, 0, 0);
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
+        BusinessTravel businessTravel = new BusinessTravel(start, end, destination, reason);
+        accountingService.accept(businessTravel, now);
+
+        Report report = accountingService.generateReport();
+
+        assertEquals(report.getPrice(), 36);
+    }
+
+    @Test
+    public void should_obtain_48_euro_for_trip_over_3_days_with_more_than_12_hours_spend_in_first_and_last_day() {
+        LocalDateTime start = LocalDateTime.of(2022, 12, 29, 10, 0);
+        LocalDateTime end = LocalDateTime.of(2022, 12, 31, 14, 0);
+        LocalDateTime now = LocalDateTime.of(2023, 1, 1, 0, 0);
+        String destination = "Sardinien";
+        String reason = "eduCamp2022";
+        BusinessTravel businessTravel = new BusinessTravel(start, end, destination, reason);
+        accountingService.accept(businessTravel, now);
+
+        Report report = accountingService.generateReport();
+
+        assertEquals(report.getPrice(), 48);
+    }
 }
